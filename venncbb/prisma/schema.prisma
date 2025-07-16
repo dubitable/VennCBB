@@ -1,0 +1,179 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Team {
+  id                                   Int     @id
+  Season                               Int?
+  Short_Conference_Name                String? @map("Short Conference Name")
+  Adjusted_Tempo                       Float?  @map("Adjusted Tempo")
+  Adjusted_Tempo_Rank                  Int?    @map("Adjusted Tempo Rank")
+  Raw_Tempo                            Float?  @map("Raw Tempo")
+  Raw_Tempo_Rank                       Int?    @map("Raw Tempo Rank")
+  Adjusted_Offensive_Efficiency        Float?  @map("Adjusted Offensive Efficiency")
+  Adjusted_Offensive_Efficiency_Rank   Int?    @map("Adjusted Offensive Efficiency Rank")
+  Raw_Offensive_Efficiency             Float?  @map("Raw Offensive Efficiency")
+  Raw_Offensive_Efficiency_Rank        Int?    @map("Raw Offensive Efficiency Rank")
+  Adjusted_Defensive_Efficiency        Float?  @map("Adjusted Defensive Efficiency")
+  Adjusted_Defensive_Efficiency_Rank   Int?    @map("Adjusted Defensive Efficiency Rank")
+  Raw_Defensive_Efficiency             Float?  @map("Raw Defensive Efficiency")
+  Raw_Defensive_Efficiency_Rank        Int?    @map("Raw Defensive Efficiency Rank")
+  Avg_Possession_Length__Offense_      Float?  @map("Avg Possession Length (Offense)")
+  Avg_Possession_Length__Offense__Rank Float?  @map("Avg Possession Length (Offense) Rank")
+  Avg_Possession_Length__Defense_      Float?  @map("Avg Possession Length (Defense)")
+  Avg_Possession_Length__Defense__Rank Float?  @map("Avg Possession Length (Defense) Rank")
+  eFGPct                               Float?
+  RankeFGPct                           Int?
+  TOPct                                Float?
+  RankTOPct                            Int?
+  ORPct                                Float?
+  RankORPct                            Int?
+  FTRate                               Float?
+  RankFTRate                           Int?
+  OffFT                                Float?
+  RankOffFT                            Int?
+  Off2PtFG                             Float?
+  RankOff2PtFG                         Int?
+  Off3PtFG                             Float?
+  RankOff3PtFG                         Int?
+  DefFT                                Float?
+  RankDefFT                            Int?
+  Def2PtFG                             Float?
+  RankDef2PtFG                         Int?
+  Def3PtFG                             Float?
+  RankDef3PtFG                         Int?
+  Tempo                                Float?
+  RankTempo                            Int?
+  AdjTempo                             Float?
+  RankAdjTempo                         Int?
+  OE                                   Float?
+  RankOE                               Int?
+  AdjOE                                Float?
+  RankAdjOE                            Int?
+  DE                                   Float?
+  RankDE                               Int?
+  AdjDE                                Float?
+  RankAdjDE                            Int?
+  AdjEM                                Float?
+  RankAdjEM                            Int?
+  Pre_Tournament_Tempo                 Float?  @map("Pre-Tournament.Tempo")
+  Pre_Tournament_RankTempo             Float?  @map("Pre-Tournament.RankTempo")
+  Pre_Tournament_AdjTempo              Float?  @map("Pre-Tournament.AdjTempo")
+  Pre_Tournament_RankAdjTempo          Float?  @map("Pre-Tournament.RankAdjTempo")
+  Pre_Tournament_OE                    Float?  @map("Pre-Tournament.OE")
+  Pre_Tournament_RankOE                Float?  @map("Pre-Tournament.RankOE")
+  Pre_Tournament_AdjOE                 Float?  @map("Pre-Tournament.AdjOE")
+  Pre_Tournament_RankAdjOE             Float?  @map("Pre-Tournament.RankAdjOE")
+  Pre_Tournament_DE                    Float?  @map("Pre-Tournament.DE")
+  Pre_Tournament_RankDE                Float?  @map("Pre-Tournament.RankDE")
+  Pre_Tournament_AdjDE                 Float?  @map("Pre-Tournament.AdjDE")
+  Pre_Tournament_RankAdjDE             Float?  @map("Pre-Tournament.RankAdjDE")
+  Pre_Tournament_AdjEM                 Float?  @map("Pre-Tournament.AdjEM")
+  Pre_Tournament_RankAdjEM             Float?  @map("Pre-Tournament.RankAdjEM")
+  FG2Pct                               Float?
+  RankFG2Pct                           Int?
+  FG3Pct                               Float?
+  RankFG3Pct                           Int?
+  FTPct                                Float?
+  RankFTPct                            Int?
+  BlockPct                             Float?
+  RankBlockPct                         Int?
+  OppFG2Pct                            Float?
+  RankOppFG2Pct                        Int?
+  OppFG3Pct                            Float?
+  RankOppFG3Pct                        Int?
+  OppFTPct                             Float?
+  RankOppFTPct                         Int?
+  OppBlockPct                          Float?
+  RankOppBlockPct                      Int?
+  FG3Rate                              Float?
+  RankFG3Rate                          Int?
+  OppFG3Rate                           Float?
+  RankOppFG3Rate                       Int?
+  ARate                                Float?
+  RankARate                            Int?
+  OppARate                             Float?
+  RankOppARate                         Int?
+  StlRate                              Float?
+  RankStlRate                          Int?
+  OppStlRate                           Float?
+  RankOppStlRate                       Int?
+  DFP                                  Float?
+  NSTRate                              Float?
+  RankNSTRate                          Float?
+  OppNSTRate                           Float?
+  RankOppNSTRate                       Float?
+  AvgHeight                            Float?
+  RankAvgHeight                        Float?
+  CenterHeight                         Float?
+  RankCenterHeight                     Float?
+  PFHeight                             Float?
+  RankPFHeight                         Float?
+  SFHeight                             Float?
+  RankSFHeight                         Float?
+  SGHeight                             Float?
+  RankSGHeight                         Float?
+  PGHeight                             Float?
+  RankPGHeight                         Float?
+  EffectiveHeight                      Float?
+  RankEffectiveHeight                  Float?
+  Experience                           Float?
+  RankExperience                       Float?
+  Bench                                Float?
+  BenchRank                            Float?
+  CenterPts                            Float?
+  RankCenterPts                        Float?
+  PFPts                                Float?
+  RankPFPts                            Float?
+  SFPts                                Float?
+  RankSFPts                            Float?
+  SGPts                                Float?
+  RankSGPts                            Float?
+  PGPts                                Float?
+  RankPGPts                            Float?
+  CenterOR                             Float?
+  RankCenterOR                         Float?
+  PFOR                                 Float?
+  RankPFOR                             Float?
+  SFOR                                 Float?
+  RankSFOR                             Float?
+  SGOR                                 Float?
+  RankSGOR                             Float?
+  PGOR                                 Float?
+  RankPGOR                             Float?
+  CenterDR                             Float?
+  RankCenterDR                         Float?
+  PFDR                                 Float?
+  RankPFDR                             Float?
+  SFDR                                 Float?
+  RankSFDR                             Float?
+  SGDR                                 Float?
+  RankSGDR                             Float?
+  PGDR                                 Float?
+  RankPGDR                             Float?
+  Net_Rating                           Float?  @map("Net Rating")
+  Net_Rating_Rank                      Int?    @map("Net Rating Rank")
+  Mapped_Conference_Name               String? @map("Mapped Conference Name")
+  Mapped_ESPN_Team_Name                String? @map("Mapped ESPN Team Name")
+  Current_Coach                        String? @map("Current Coach")
+  Full_Team_Name                       String? @map("Full Team Name")
+  Since                                Float?
+  Active_Coaching_Length               String? @map("Active Coaching Length")
+  Active_Coaching_Length_Index         Float?  @map("Active Coaching Length Index")
+  Seed                                 String?
+  Region                               String?
+  Post_Season_Tournament               String? @map("Post-Season Tournament")
+  Post_Season_Tournament_Sorting_Index Float?  @map("Post-Season Tournament Sorting Index")
+  Vulnerable_Top_2_Seed_               String? @map("Vulnerable Top 2 Seed?")
+  Tournament_Winner_                   String? @map("Tournament Winner?")
+  Tournament_Championship_             String? @map("Tournament Championship?")
+  Final_Four_                          String? @map("Final Four?")
+  Top_12_in_AP_Top_25_During_Week_6_   String? @map("Top 12 in AP Top 25 During Week 6?")
+  logos                                String?
+}
