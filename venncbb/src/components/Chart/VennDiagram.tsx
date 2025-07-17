@@ -7,6 +7,8 @@ import useWindowDimensions from "../hooks";
 import type { Team } from "@prisma/client";
 import type { Restriction } from "../App";
 
+const A_CHAR_CODE = 65;
+
 function powerset<T>(set: T[]) {
   const res: { index: number; value: T }[][] = [];
 
@@ -55,7 +57,9 @@ function createSets(teams: Team[], restrictions: Restriction[]) {
     const filteredTeams = applyRestrictions(teams, memo);
 
     return {
-      sets: subRestrictions.map((elem) => String.fromCharCode(elem.index + 65)),
+      sets: subRestrictions.map((elem) =>
+        String.fromCharCode(elem.index + A_CHAR_CODE)
+      ),
       size: filteredTeams.length,
       teams: filteredTeams,
     };
@@ -81,6 +85,11 @@ const VennDiagram = ({
 
     const chart = VennDiagramJS(width * 0.8, height * 0.8);
     d3.select(ref.current).datum(sets).call(chart);
+
+    sets.forEach(({ sets, size, teams }) => {
+      const group = d3.select(`[data-venn-sets="${sets.join("_")}"]`);
+      console.log((group.node() as SVGGElement).getBBox());
+    });
   }, [restrictions]);
 
   return <div ref={ref} />;

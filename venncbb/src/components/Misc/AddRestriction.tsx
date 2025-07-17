@@ -43,13 +43,27 @@ const AddRestriction = ({ teams, addRes }: AddRestrictionProps) => {
 
       {stat && <Slider minState={[min, setMin]} maxState={[max, setMax]} />}
       {stat && (
+        <div>
+          {
+            teams.filter(
+              (elem) =>
+                min <= (elem[stat] as unknown as number) &&
+                max >= (elem[stat] as unknown as number)
+            ).length
+          }
+          / {teams.length}
+        </div>
+      )}
+      {stat && (
         <button
-          className="bg-green-400 px-3 rounded"
+          className="bg-green-400 px-3 py rounded"
           onClick={() => {
             addRes({ max, min, stat });
             setStat(undefined);
           }}
-        ></button>
+        >
+          +
+        </button>
       )}
     </div>
   );

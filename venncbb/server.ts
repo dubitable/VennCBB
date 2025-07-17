@@ -10,8 +10,30 @@ app.use(cors());
 const PORT = 3001;
 
 app.get("/teams", async (_req, res) => {
+  if (
+    typeof _req.query.orderBy != "string" ||
+    typeof _req.query.dir != "string"
+  )
+    return;
+
+  const orderBy = {};
+  orderBy[_req.query.orderBy] = _req.query.dir;
+
   const result = await prisma.team.findMany({
-    orderBy: [{ Season: "asc" }, { Full_Team_Name: "desc" }],
+    orderBy,
+    where: { NOT: { Full_Team_Name: null } },
+    select: {
+      Tournament_Winner_: true,
+      logos: true,
+      Mapped_ESPN_Team_Name: true,
+      Season: true,
+      Full_Team_Name: true,
+      Short_Conference_Name: true,
+      Net_Rating: true,
+      Adjusted_Offensive_Efficiency: true,
+      Adjusted_Defensive_Efficiency: true,
+      Adjusted_Tempo: true,
+    },
   });
 
   res.json(result);
