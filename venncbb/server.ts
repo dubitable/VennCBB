@@ -9,18 +9,9 @@ app.use(cors());
 
 const PORT = 3001;
 
-app.get("/teams", async (_req, res) => {
-  if (
-    typeof _req.query.orderBy != "string" ||
-    typeof _req.query.dir != "string"
-  )
-    return;
-
-  const orderBy = {};
-  orderBy[_req.query.orderBy] = _req.query.dir;
-
+app.post("/teams", async (_req, res) => {
   const result = await prisma.team.findMany({
-    orderBy,
+    orderBy: { Season: "asc" },
     where: { NOT: { Full_Team_Name: null } },
     select: {
       Tournament_Winner_: true,

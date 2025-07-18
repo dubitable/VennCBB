@@ -1,5 +1,5 @@
 const ArrowIcon = ({ orientation }: { orientation: "asc" | "desc" }) => {
-  if (orientation == "desc") {
+  if (orientation == "asc") {
     return (
       <svg
         stroke="currentColor"

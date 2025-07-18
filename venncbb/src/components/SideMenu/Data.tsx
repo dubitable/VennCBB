@@ -1,6 +1,8 @@
 import type { Team } from "@prisma/client";
 import Boxplot from "../Chart/Boxplot";
 import type { SelectedColumn } from "../../App";
+import Search from "./Search";
+import type { State } from "../../helpers";
 
 const access = (team: Team, selectedColumn: keyof Team) => {
   const value = team[selectedColumn];
@@ -18,11 +20,15 @@ const filter = (values: { group: string; value: number | null }[]) => {
 
 const Data = ({
   teams,
-  selectedColumn,
+  colState,
+  keys,
 }: {
   teams: Team[];
-  selectedColumn?: SelectedColumn;
+  colState: State<SelectedColumn>;
+  keys: string[];
 }) => {
+  const [selectedColumn, _] = colState;
+
   const plot = selectedColumn ? (
     <Boxplot
       data={filter(
@@ -39,11 +45,13 @@ const Data = ({
   );
 
   return (
-    <div className="flex h-screen flex-1 flex-col justify-start border-e border-gray-100 bg-white w-[20rem]">
-      <div className="flex flex-row justify-center items-center pt-5 text-medium text-gray-900">
+    <div className="flex h-screen flex-1 flex-col justify-start border-e border-gray-100 bg-white w-[20rem] gap-5">
+      <div className="flex flex-row justify-center items-center mt-5 text-medium text-gray-900 border-b-2 pb-2 border-gray-100">
         Visualization
       </div>
-      <div className="w-full h-3/4 cursor-pointer">{plot}</div>
+      <Search valueState={colState as State<string | undefined>} keys={keys} />
+
+      <div className="w-full h-full cursor-pointer">{plot}</div>
     </div>
   );
 };

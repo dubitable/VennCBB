@@ -45,7 +45,7 @@ const Table = ({
   selectedColumnState,
 }: {
   teams: Team[];
-  orderByState: State<OrderBy>;
+  orderByState: State<OrderBy[]>;
   selectedColumnState: State<SelectedColumn>;
 }) => {
   if (teams.length <= 0) return <div></div>;
@@ -53,16 +53,12 @@ const Table = ({
   const [orderBy, setOrderBy] = orderByState;
   const [selectedColumn, setSelectedColumn] = selectedColumnState;
 
-  const updateOrderBy = (key: keyof Team) => {
-    if (orderBy[0] == key) {
-      if (orderBy[1] == "asc") {
-        setOrderBy([key, "desc"]);
-      } else {
-        setOrderBy(orderByDefault);
-      }
-    } else {
-      setOrderBy([key, "asc"]);
-    }
+  const renderArrow = (key: string) => {
+    const value = orderBy.find((elem) => elem.id == key);
+
+    if (value == undefined) return null;
+
+    return <ArrowIcon orientation={value.dir} />;
   };
 
   return (
@@ -99,11 +95,7 @@ const Table = ({
                             </div>
                           )}
                         </span>
-                        <div className="w-2">
-                          {orderBy[0] == key && (
-                            <ArrowIcon orientation={orderBy[1]} />
-                          )}
-                        </div>
+                        <div className="w-2">{renderArrow(key)}</div>
                       </div>
                     </Selectable>
                   </th>
