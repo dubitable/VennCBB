@@ -1,10 +1,10 @@
-import { nameMap } from "../../helpers";
+import { NAMEMAP } from "../../maps";
 
 const Stat = ({ name }: { name: string }) => {
-  if (name in nameMap) {
+  if (name in NAMEMAP) {
     return (
       <div className={`${name} noselect`}>
-        {nameMap[name as keyof typeof nameMap]}
+        {NAMEMAP[name as keyof typeof NAMEMAP]}
       </div>
     );
   }

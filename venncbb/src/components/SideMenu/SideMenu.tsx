@@ -1,8 +1,13 @@
 import type { Team } from "@prisma/client";
-import { keys, type State } from "../../helpers";
+import { keys, type State, applyFilters } from "../../helpers";
 import Data from "./Data";
 import SideMenuReduced from "./Reduced";
-import type { OrderBy, SelectedColumn, Filter as DataFilter } from "../../App";
+import type {
+  OrderBy,
+  SelectedColumn,
+  Filter as DataFilter,
+  DataMode,
+} from "../../App";
 import Sort from "./Sort";
 import Filter from "./Filter";
 import Settings from "./Settings";
@@ -15,21 +20,24 @@ const SideMenu = ({
   selectedColumnState,
   orderByState,
   filtersState,
+  dataModeState,
 }: {
   modeState: State<SideMenuMode>;
   teams: Team[];
   selectedColumnState: State<SelectedColumn>;
   orderByState: State<OrderBy[]>;
   filtersState: State<DataFilter[]>;
+  dataModeState: State<DataMode>;
 }) => {
   const [mode, _] = modeState;
+  const [filters, setFilters] = filtersState;
 
   const objKeys = teams.length > 0 ? keys(teams[0]) : [];
 
   return (
     <div className="flex">
       <SideMenuReduced modeState={modeState} />
-      {mode == "settings" && <Settings />}
+      {mode == "settings" && <Settings dataModeState={dataModeState} />}
       {mode == "filter" && (
         <Filter
           colState={selectedColumnState as State<string | undefined>}
@@ -46,7 +54,11 @@ const SideMenu = ({
         />
       )}
       {mode == "data" && (
-        <Data teams={teams} colState={selectedColumnState} keys={objKeys} />
+        <Data
+          teams={applyFilters(teams, filters)}
+          colState={selectedColumnState}
+          keys={objKeys}
+        />
       )}
     </div>
   );

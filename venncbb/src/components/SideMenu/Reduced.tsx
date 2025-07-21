@@ -55,8 +55,6 @@ const MenuItem = ({
 };
 
 const SideMenuReduced = ({ modeState }: { modeState: State<SideMenuMode> }) => {
-  const [mode, _] = modeState;
-
   return (
     <div className="flex h-full w-16 flex-col justify-between border-e border-gray-100 bg-white noselect ">
       <div>

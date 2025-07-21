@@ -4,17 +4,22 @@ import "./App.css";
 import Table from "./components/Table/Table";
 import SideMenu, { type SideMenuMode } from "./components/SideMenu/SideMenu";
 import { applyFilters } from "./helpers";
+import { DATASELECT } from "./maps";
 
 const API_URL = "http://localhost:3001";
 
 export type OrderBy = { id: keyof Team; dir: "asc" | "desc" };
+export type DataMode = "red" | "full";
 
-const getTeams = async (orderBys: OrderBy[]) => {
+const getTeams = async (orderBys: OrderBy[], dataMode: DataMode) => {
   const url = `${API_URL}/teams`;
   const response = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ orderBys }),
+    body: JSON.stringify({
+      orderBys,
+      select: dataMode == "red" ? DATASELECT.REDUCED : DATASELECT.FULL,
+    }),
   });
   const data = (await response.json()) as Team[];
 
@@ -24,7 +29,6 @@ const getTeams = async (orderBys: OrderBy[]) => {
 export const orderByDefault = { id: "Season", dir: "asc" } as OrderBy;
 
 export type Restriction = { stat: keyof Team; min: number; max: number };
-
 export type SelectedColumn = keyof Team | undefined;
 
 export type Filter = {
@@ -36,18 +40,20 @@ export type Filter = {
 
 function App() {
   const [teams, setTeams] = useState<Team[]>([]);
+
   const [orderBy, setOrderBy] = useState<OrderBy[]>([orderByDefault]);
   const [filters, setFilters] = useState<Filter[]>([]);
 
   const [sideMenuMode, setSideMenuMode] = useState<SideMenuMode>("red");
+  const [dataMode, setDataMode] = useState<DataMode>("full");
 
   const [selectedColumn, setSelectedColumn] = useState<SelectedColumn>();
 
   useEffect(() => {
-    getTeams(orderBy).then((res) => {
+    getTeams(orderBy, dataMode).then((res) => {
       setTeams(res);
     });
-  }, [orderBy]);
+  }, [orderBy, dataMode]);
 
   return (
     <div className="w-screen h-screen flex flex-row justify-between">
@@ -57,6 +63,7 @@ function App() {
         selectedColumnState={[selectedColumn, setSelectedColumn]}
         orderByState={[orderBy, setOrderBy]}
         filtersState={[filters, setFilters]}
+        dataModeState={[dataMode, setDataMode]}
       />
 
       <div className="">
