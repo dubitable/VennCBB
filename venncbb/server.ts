@@ -5,13 +5,18 @@ import cors from "cors";
 const app = express();
 const prisma = new PrismaClient();
 
-app.use(cors());
-
 const PORT = 3001;
 
+app.use(cors());
+app.use(express.json());
+
 app.post("/teams", async (_req, res) => {
+  const orderBy = (_req.body?.orderBys ?? []).map(({ id, dir }) => {
+    return { [id]: dir };
+  });
+
   const result = await prisma.team.findMany({
-    orderBy: { Season: "asc" },
+    orderBy,
     where: { NOT: { Full_Team_Name: null } },
     select: {
       Tournament_Winner_: true,

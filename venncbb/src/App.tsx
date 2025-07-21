@@ -12,6 +12,7 @@ const getTeams = async (orderBys: OrderBy[]) => {
   const url = `${API_URL}/teams`;
   const response = await fetch(url, {
     method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ orderBys }),
   });
   const data = (await response.json()) as Team[];

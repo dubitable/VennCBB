@@ -2,7 +2,7 @@ import type { OrderBy } from "../../App";
 import type { State } from "../../helpers";
 import Search from "./Search";
 
-import React, { act, useState } from "react";
+import { useState } from "react";
 
 import {
   DndContext,
@@ -24,7 +24,7 @@ import {
 
 import SortCondition from "./SortCondition";
 import type { Team } from "@prisma/client";
-import ArrowIcon from "../../icons/ArrowIcon";
+import TempSortCondition from "./TempSortCondition";
 
 const Filter = ({
   colState,
@@ -52,30 +52,42 @@ const Filter = ({
         Sort
       </div>
       <Search valueState={colState} keys={keys} />
+      <div className="h-3/4 w-full">
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext
+            items={orderBy}
+            strategy={verticalListSortingStrategy}
+          >
+            {orderBy
+              // .filter((elem) => elem.id != activeId)
+              .map(({ id, dir }, index) => (
+                <SortCondition
+                  key={index}
+                  id={id}
+                  dir={dir}
+                  orderByState={orderByState}
+                />
+              ))}
+          </SortableContext>
 
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEnd}
-      >
-        <SortableContext items={orderBy} strategy={verticalListSortingStrategy}>
-          {orderBy
-            .filter((elem) => elem.id != activeId)
-            .map(({ id, dir }, index) => (
-              <SortCondition key={index} id={id} dir={dir} />
-            ))}
-        </SortableContext>
+          <DragOverlay>
+            {activeId && (
+              <SortCondition
+                id={activeId}
+                dir={orderBy.find((elem) => activeId == elem.id)?.dir ?? "asc"}
+                orderByState={orderByState}
+              />
+            )}
+          </DragOverlay>
+        </DndContext>
+      </div>
 
-        <DragOverlay>
-          {activeId && (
-            <SortCondition
-              id={activeId}
-              dir={orderBy.find((elem) => activeId == elem.id)?.dir ?? "asc"}
-            />
-          )}
-        </DragOverlay>
-      </DndContext>
+      <TempSortCondition colState={colState} orderByState={orderByState} />
     </div>
   );
 
