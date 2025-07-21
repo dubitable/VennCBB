@@ -1,7 +1,7 @@
 import type { Team } from "@prisma/client";
 import { Tooltip } from "react-tooltip";
 import type { SelectedColumn, OrderBy } from "../../App";
-import { entries, keys, nameMap, type State } from "../../helpers";
+import { entries, keys, type State } from "../../helpers";
 import ArrowIcon from "../../icons/ArrowIcon";
 import type { JSX } from "react";
 import Paginate, { usePaginate } from "../Paginate/Paginate";

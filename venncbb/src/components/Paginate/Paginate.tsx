@@ -10,7 +10,9 @@ export const usePaginate = (elems: number, split: number) => {
     prev: () => (page <= 0 ? null : setPage(page - 1)),
     last: () => setPage(pages - 1),
     first: () => setPage(0),
-    slice: (arr: any[]) => arr.slice(page * split, (page + 1) * split),
+    slice: function <T>(arr: T[]) {
+      return arr.slice(page * split, (page + 1) * split);
+    },
     page,
     pages,
     setPage,

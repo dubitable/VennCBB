@@ -30,7 +30,7 @@ function App() {
   const [teams, setTeams] = useState<Team[]>([]);
   const [orderBy, setOrderBy] = useState<OrderBy[]>([orderByDefault]);
 
-  const [sideMenuMode, setSideMenuMode] = useState<SideMenuMode>("sort");
+  const [sideMenuMode, setSideMenuMode] = useState<SideMenuMode>("red");
 
   const [selectedColumn, setSelectedColumn] = useState<SelectedColumn>();
 
