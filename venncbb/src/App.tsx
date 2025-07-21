@@ -39,10 +39,9 @@ function App() {
   const [orderBy, setOrderBy] = useState<OrderBy[]>([orderByDefault]);
   const [filters, setFilters] = useState<Filter[]>([]);
 
-  const [sideMenuMode, setSideMenuMode] = useState<SideMenuMode>("filter");
+  const [sideMenuMode, setSideMenuMode] = useState<SideMenuMode>("red");
 
-  const [selectedColumn, setSelectedColumn] =
-    useState<SelectedColumn>("Net_Rating");
+  const [selectedColumn, setSelectedColumn] = useState<SelectedColumn>();
 
   useEffect(() => {
     getTeams(orderBy).then((res) => {

@@ -29,8 +29,8 @@ const TempFilterCondition = ({
     if (typeof mapped[0] == "string") return;
     if (mapped.length == 0) return;
 
-    setMin(Math.min(...mapped).toFixed(0));
-    setMax(Math.max(...mapped).toFixed(0));
+    setMin(Math.floor(Math.min(...mapped)).toFixed(0));
+    setMax(Math.ceil(Math.max(...mapped)).toFixed(0));
   }, [teams, selectedColumn]);
 
   return (
