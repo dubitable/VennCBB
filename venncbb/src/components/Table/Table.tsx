@@ -1,10 +1,10 @@
 import type { Team } from "@prisma/client";
 import { Tooltip } from "react-tooltip";
-import type { SelectedColumn, OrderBy } from "../../App";
+import type { SelectedColumn, OrderBy, Filter } from "../../App";
 import { entries, keys, type State } from "../../helpers";
 import ArrowIcon from "../../icons/ArrowIcon";
 import type { JSX } from "react";
-import Paginate, { usePaginate } from "../Paginate/Paginate";
+import Paginate, { usePaginate } from "./Paginate";
 import Stat from "../Misc/Stat";
 
 const SKIP_COLS = 3;

@@ -3,6 +3,7 @@ import type { Team } from "@prisma/client";
 import "./App.css";
 import Table from "./components/Table/Table";
 import SideMenu, { type SideMenuMode } from "./components/SideMenu/SideMenu";
+import { applyFilters } from "./helpers";
 
 const API_URL = "http://localhost:3001";
 
@@ -26,13 +27,22 @@ export type Restriction = { stat: keyof Team; min: number; max: number };
 
 export type SelectedColumn = keyof Team | undefined;
 
+export type Filter = {
+  apply: (team: Team) => boolean;
+  min: number;
+  max: number;
+  column: string;
+};
+
 function App() {
   const [teams, setTeams] = useState<Team[]>([]);
   const [orderBy, setOrderBy] = useState<OrderBy[]>([orderByDefault]);
+  const [filters, setFilters] = useState<Filter[]>([]);
 
-  const [sideMenuMode, setSideMenuMode] = useState<SideMenuMode>("red");
+  const [sideMenuMode, setSideMenuMode] = useState<SideMenuMode>("filter");
 
-  const [selectedColumn, setSelectedColumn] = useState<SelectedColumn>();
+  const [selectedColumn, setSelectedColumn] =
+    useState<SelectedColumn>("Net_Rating");
 
   useEffect(() => {
     getTeams(orderBy).then((res) => {
@@ -47,11 +57,12 @@ function App() {
         teams={teams}
         selectedColumnState={[selectedColumn, setSelectedColumn]}
         orderByState={[orderBy, setOrderBy]}
+        filtersState={[filters, setFilters]}
       />
 
       <div className="">
         <Table
-          teams={teams}
+          teams={applyFilters(teams, filters)}
           orderByState={[orderBy, setOrderBy]}
           selectedColumnState={[selectedColumn, setSelectedColumn]}
         />

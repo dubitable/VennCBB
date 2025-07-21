@@ -1,3 +1,6 @@
+import type { Team } from "@prisma/client";
+import type { Filter } from "./App";
+
 export type State<T> = [T, (val: T) => void];
 
 export const keys = <T extends Record<any, any>>(obj: T) => {
@@ -25,4 +28,10 @@ export const nameMap = {
   Raw_Offensive_Efficiency: "OE",
   Raw_Defensive_Efficiency: "DE",
   Adjusted_Tempo: "AdjT",
+};
+
+export const applyFilters = (teams: Team[], filters: Filter[]) => {
+  return teams.filter((team) => {
+    return filters.reduce((prev, curr) => prev && curr.apply(team), true);
+  });
 };

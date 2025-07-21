@@ -1,23 +1,25 @@
 import type { Team } from "@prisma/client";
 import { keys, type State } from "../../helpers";
 import Data from "./Data";
-import Filter from "./Filter";
 import SideMenuReduced from "./Reduced";
-import type { OrderBy, SelectedColumn } from "../../App";
+import type { OrderBy, SelectedColumn, Filter as DataFilter } from "../../App";
 import Sort from "./Sort";
+import Filter from "./Filter";
 
-export type SideMenuMode = "red" | "filter" | "settings" | "data" | "sort";
+export type SideMenuMode = "filter" | "settings" | "data" | "sort" | "red";
 
 const SideMenu = ({
   modeState,
   teams,
   selectedColumnState,
   orderByState,
+  filtersState,
 }: {
   modeState: State<SideMenuMode>;
   teams: Team[];
   selectedColumnState: State<SelectedColumn>;
   orderByState: State<OrderBy[]>;
+  filtersState: State<DataFilter[]>;
 }) => {
   const [mode, _] = modeState;
 
@@ -30,6 +32,8 @@ const SideMenu = ({
         <Filter
           colState={selectedColumnState as State<string | undefined>}
           keys={objKeys}
+          filtersState={filtersState}
+          teams={teams}
         />
       )}
       {mode == "sort" && (
