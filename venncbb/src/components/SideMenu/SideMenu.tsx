@@ -5,6 +5,7 @@ import SideMenuReduced from "./Reduced";
 import type { OrderBy, SelectedColumn, Filter as DataFilter } from "../../App";
 import Sort from "./Sort";
 import Filter from "./Filter";
+import Settings from "./Settings";
 
 export type SideMenuMode = "filter" | "settings" | "data" | "sort" | "red";
 
@@ -28,6 +29,7 @@ const SideMenu = ({
   return (
     <div className="flex">
       <SideMenuReduced modeState={modeState} />
+      {mode == "settings" && <Settings />}
       {mode == "filter" && (
         <Filter
           colState={selectedColumnState as State<string | undefined>}

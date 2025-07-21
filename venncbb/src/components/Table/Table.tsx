@@ -1,13 +1,13 @@
 import type { Team } from "@prisma/client";
 import { Tooltip } from "react-tooltip";
-import type { SelectedColumn, OrderBy, Filter } from "../../App";
+import type { SelectedColumn, OrderBy } from "../../App";
 import { entries, keys, type State } from "../../helpers";
 import ArrowIcon from "../../icons/ArrowIcon";
 import type { JSX } from "react";
 import Paginate, { usePaginate } from "./Paginate";
 import Stat from "../Misc/Stat";
 
-const SKIP_COLS = 3;
+const SKIP_COLS = 2;
 
 const Selectable = ({
   children,
@@ -28,6 +28,57 @@ const Selectable = ({
       {children}
     </div>
   );
+};
+
+const TableEntry = ({
+  col,
+  value,
+  team,
+  index,
+}: {
+  col: keyof Team;
+  team: Team;
+  index: number;
+  value: number | string | null;
+}) => {
+  let content;
+
+  switch (col) {
+    case "Full_Team_Name":
+      content = (
+        <div
+          className="w-[15rem] overflow-clip"
+          style={
+            team.Tournament_Winner_ == "Yes"
+              ? { textDecoration: "underline" }
+              : undefined
+          }
+        >
+          {value}
+        </div>
+      );
+      break;
+
+    case "logos":
+      content = (
+        <div>
+          <div className={`logo-${index}`}>
+            {team.logos && <img className="size-8" src={team.logos} />}
+          </div>
+        </div>
+      );
+      break;
+
+    default:
+      content = (
+        <div>
+          {typeof value == "number" && value.toFixed(0)}
+          {typeof value == "string" && value}
+        </div>
+      );
+  }
+
+  return <td className="px-3 py-2 whitespace-nowrap">{content}</td>;
 };
 
 const Table = ({
@@ -55,17 +106,21 @@ const Table = ({
   };
 
   return (
-    <div className="flex w-full h-screen py-[3rem] justify-center flex-col gap-2">
+    <div className="flex w-[60rem] overflow-scroll h-screen py-[3rem] justify-center flex-col gap-2">
       {keys(teams[0]).map((key, index) => (
         <Tooltip anchorSelect={`.${key}`} place="top" key={index}>
           {key.replaceAll("_", " ")}
         </Tooltip>
       ))}
+      {paginate.slice(teams).map(({ Full_Team_Name, Season }, index) => (
+        <Tooltip anchorSelect={`.logo-${index}`} place="left" key={index}>
+          {Full_Team_Name} ({Season})
+        </Tooltip>
+      ))}
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y-2 divide-gray-200 dark:divide-gray-700">
-          <thead className="sticky top-0 bg-white ltr:text-left rtl:text-right dark:bg-gray-900">
-            <tr className="*:font-medium *:text-gray-900 dark:*:text-white">
-              <th className="px-3 py-2 whitespace-nowrap noselect">Logo</th>
+          <thead className=" bg-white ltr:text-left rtl:text-right dark:bg-gray-900">
+            <tr className="*:font-medium *:text-gray-900 dark:*:text-white *:first:sticky *:first:left-0 *:first:bg-gray-900">
               {keys(teams[0])
                 .slice(SKIP_COLS)
                 .map((key, index) => (
@@ -91,41 +146,20 @@ const Table = ({
           <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
             {paginate.slice(teams).map((team, teamIndex) => (
               <tr
-                className="*:text-gray-900 *:first:font-medium dark:*:text-white"
+                className="*:text-gray-900 *:first:sticky dark:*:text-white *:first:left-0 *:first:bg-[#242424]"
                 key={teamIndex}
               >
-                <td className="px-3 py-2 whitespace-nowrap">
-                  {team.logos && <img className="size-8" src={team.logos} />}
-                </td>
                 {entries(team)
                   .slice(SKIP_COLS)
-                  .map(([key, value], keyIndex) =>
-                    key == "Full_Team_Name" ? (
-                      <td
-                        className="px-3 py-2 whitespace-nowrap"
-                        key={keyIndex}
-                      >
-                        <div
-                          className="w-[15rem] overflow-clip"
-                          style={
-                            team.Tournament_Winner_ == "Yes"
-                              ? { textDecoration: "underline" }
-                              : undefined
-                          }
-                        >
-                          {value}
-                        </div>
-                      </td>
-                    ) : (
-                      <td
-                        className="px-3 py-2 whitespace-nowrap"
-                        key={keyIndex}
-                      >
-                        {typeof value == "number" && value.toFixed(0)}
-                        {typeof value == "string" && value}
-                      </td>
-                    )
-                  )}
+                  .map(([key, value], keyIndex) => (
+                    <TableEntry
+                      index={teamIndex}
+                      key={keyIndex}
+                      col={key}
+                      team={team}
+                      value={value}
+                    />
+                  ))}
               </tr>
             ))}
           </tbody>

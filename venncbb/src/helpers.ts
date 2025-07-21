@@ -19,7 +19,8 @@ export const filterNull = <T>(array: (T | null)[]) => {
   return array.filter((val) => val != null) as T[];
 };
 
-export const nameMap = {
+export const nameMap: Partial<Record<keyof Team, string>> = {
+  logos: "Logo",
   Short_Conference_Name: "Conf.",
   Full_Team_Name: "Team",
   Net_Rating: "NTG",
@@ -27,7 +28,18 @@ export const nameMap = {
   Adjusted_Defensive_Efficiency: "AdjDE",
   Raw_Offensive_Efficiency: "OE",
   Raw_Defensive_Efficiency: "DE",
-  Adjusted_Tempo: "AdjT",
+  Adjusted_Tempo: "AdjTmp",
+  Raw_Tempo: "Tmp",
+  eFGPct: "eFG%",
+  FG2Pct: "2FG%",
+  FG3Pct: "3FG%",
+  FTPct: "FT%",
+  TOPct: "TO%",
+  BlockPct: "Block%",
+  OppFG2Pct: "O2FG%",
+  OppFG3Pct: "O3FG%",
+  OppFTPct: "OFT%",
+  OppBlockPct: "OBlock%",
 };
 
 export const applyFilters = (teams: Team[], filters: Filter[]) => {
