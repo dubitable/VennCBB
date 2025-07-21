@@ -1,8 +1,10 @@
 import ArrowIcon from "../../icons/ArrowIcon";
 import type { OrderBy } from "../../App";
-import type { State } from "../../helpers";
+import { type State } from "../../helpers";
 import { useState } from "react";
 import type { Team } from "@prisma/client";
+import { Tooltip } from "react-tooltip";
+import Stat from "../Misc/Stat";
 
 const TempSortCondition = ({
   colState,
@@ -25,7 +27,12 @@ const TempSortCondition = ({
       <div className="bg-gray-400 rounded h-full w-8 cursor-pointer"></div>
 
       <div className="flex flex-row justify-center items-center gap-3">
-        {selectedColumn.replaceAll("_", " ")}
+        <Tooltip anchorSelect={`.${selectedColumn}`} place="top">
+          {selectedColumn.replaceAll("_", " ")}
+        </Tooltip>
+        <div className="text-nowrap overflow-clip w-[4rem]">
+          <Stat name={selectedColumn} />
+        </div>
         <div
           className="size-5 cursor-pointer"
           onClick={() => setDir(dir == "asc" ? "desc" : "asc")}

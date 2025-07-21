@@ -1,22 +1,13 @@
 import type { Team } from "@prisma/client";
 import { Tooltip } from "react-tooltip";
-import { orderByDefault, type SelectedColumn, type OrderBy } from "../../App";
-import { entries, keys, type State } from "../../helpers";
+import type { SelectedColumn, OrderBy } from "../../App";
+import { entries, keys, nameMap, type State } from "../../helpers";
 import ArrowIcon from "../../icons/ArrowIcon";
 import type { JSX } from "react";
+import Paginate, { usePaginate } from "../Paginate/Paginate";
+import Stat from "../Misc/Stat";
 
 const SKIP_COLS = 3;
-
-const nameMap = {
-  Short_Conference_Name: "Conf.",
-  Full_Team_Name: "Team",
-  Net_Rating: "NTG",
-  Adjusted_Offensive_Efficiency: "AdjOE",
-  Adjusted_Defensive_Efficiency: "AdjDE",
-  Raw_Offensive_Efficiency: "OE",
-  Raw_Defensive_Efficiency: "DE",
-  Adjusted_Tempo: "AdjT",
-};
 
 const Selectable = ({
   children,
@@ -50,7 +41,9 @@ const Table = ({
 }) => {
   if (teams.length <= 0) return <div></div>;
 
-  const [orderBy, setOrderBy] = orderByState;
+  const paginate = usePaginate(teams.length, 12);
+
+  const [orderBy, _] = orderByState;
   const [selectedColumn, setSelectedColumn] = selectedColumnState;
 
   const renderArrow = (key: string) => {
@@ -62,7 +55,7 @@ const Table = ({
   };
 
   return (
-    <div className="flex w-full h-screen py-[3rem] justify-center">
+    <div className="flex w-full h-screen py-[3rem] justify-center flex-col gap-2">
       {keys(teams[0]).map((key, index) => (
         <Tooltip anchorSelect={`.${key}`} place="top" key={index}>
           {key.replaceAll("_", " ")}
@@ -85,15 +78,7 @@ const Table = ({
                     <Selectable selected={key == selectedColumn}>
                       <div className="flex flex-row justify-center items-center gap-1">
                         <span>
-                          {key in nameMap ? (
-                            <div className={`${key} noselect`}>
-                              {nameMap[key as keyof typeof nameMap]}
-                            </div>
-                          ) : (
-                            <div className="noselect">
-                              {key.replaceAll("_", " ")}
-                            </div>
-                          )}
+                          <Stat name={key} />
                         </span>
                         <div className="w-2">{renderArrow(key)}</div>
                       </div>
@@ -104,7 +89,7 @@ const Table = ({
           </thead>
 
           <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-            {teams.slice(0, 20).map((team, teamIndex) => (
+            {paginate.slice(teams).map((team, teamIndex) => (
               <tr
                 className="*:text-gray-900 *:first:font-medium dark:*:text-white"
                 key={teamIndex}
@@ -120,7 +105,16 @@ const Table = ({
                         className="px-3 py-2 whitespace-nowrap"
                         key={keyIndex}
                       >
-                        <div className="w-[15rem] overflow-clip">{value}</div>
+                        <div
+                          className="w-[15rem] overflow-clip"
+                          style={
+                            team.Tournament_Winner_ == "Yes"
+                              ? { textDecoration: "underline" }
+                              : undefined
+                          }
+                        >
+                          {value}
+                        </div>
                       </td>
                     ) : (
                       <td
@@ -137,6 +131,7 @@ const Table = ({
           </tbody>
         </table>
       </div>
+      <Paginate paginate={paginate} />
     </div>
   );
 };

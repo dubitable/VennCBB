@@ -2,7 +2,9 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import ArrowIcon from "../../icons/ArrowIcon";
 import type { OrderBy } from "../../App";
-import type { State } from "../../helpers";
+import { type State } from "../../helpers";
+import { Tooltip } from "react-tooltip";
+import Stat from "../Misc/Stat";
 
 const SortCondition = ({
   dir,
@@ -31,11 +33,16 @@ const SortCondition = ({
     >
       <div
         {...listeners}
-        className="bg-gray-400 rounded h-6 w-8 cursor-pointer z-[999]"
+        className="bg-gray-400 rounded h-6 w-8 cursor-pointer"
       ></div>
 
       <div className="flex flex-row justify-center items-center gap-3">
-        {id.replaceAll("_", " ")}
+        <Tooltip anchorSelect={`.${id}`} place="top">
+          {id.replaceAll("_", " ")}
+        </Tooltip>
+        <div className="text-nowrap overflow-clip w-[4rem]">
+          <Stat name={id} />
+        </div>
         <div
           className="size-5 cursor-pointer"
           onClick={() =>

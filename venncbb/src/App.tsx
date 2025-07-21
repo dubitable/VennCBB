@@ -20,7 +20,7 @@ const getTeams = async (orderBys: OrderBy[]) => {
   return data;
 };
 
-export const orderByDefault = { id: "Season", dir: "desc" } as OrderBy;
+export const orderByDefault = { id: "Season", dir: "asc" } as OrderBy;
 
 export type Restriction = { stat: keyof Team; min: number; max: number };
 
