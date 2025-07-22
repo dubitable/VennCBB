@@ -27,17 +27,20 @@ const getTeams = async (orderBys: OrderBy[], dataMode: DataMode) => {
   return data;
 };
 
-export const orderByDefault = { id: "Season", dir: "asc" } as OrderBy;
+export const orderByDefault = { id: "Net_Rating", dir: "desc" } as OrderBy;
 
 export type Restriction = { stat: keyof Team; min: number; max: number };
 export type SelectedColumn = keyof Team | undefined;
 
-export type Filter = {
+export type NumFilter = {
+  type: "numeric";
   apply: (team: Team) => boolean;
   min: number;
   max: number;
   column: string;
 };
+
+export type Filter = NumFilter;
 
 function App() {
   const [teams, setTeams] = useState<Team[]>([]);

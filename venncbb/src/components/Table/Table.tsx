@@ -82,6 +82,7 @@ const TableEntry = ({
         <div>
           {typeof value == "number" && value.toFixed(0)}
           {typeof value == "string" && value}
+          {value == null && "?"}
         </div>
       );
   }

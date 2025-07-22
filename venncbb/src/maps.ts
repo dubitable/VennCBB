@@ -14,11 +14,16 @@ export const NAMEMAP = {
   FG3Pct: "3FG%",
   FTPct: "FT%",
   TOPct: "TO%",
-  BlockPct: "Block%",
+  BlockPct: "Blk%",
   OppFG2Pct: "O2FG%",
   OppFG3Pct: "O3FG%",
   OppFTPct: "OFT%",
-  OppBlockPct: "OBlock%",
+  OppBlockPct: "OBlk%",
+  CenterOR: "COR",
+  CenterDR: "CDR",
+  CenterPts: "CPts",
+  AvgHeight: "AvgHgt",
+  EffectiveHeight: "EffHgt",
 };
 
 export const DATASELECT = {
@@ -66,5 +71,28 @@ export const DATASELECT = {
     OppFTPct: true,
 
     OppBlockPct: true,
+
+    PGOR: true,
+    SGOR: true,
+    SFOR: true,
+    PFOR: true,
+    CenterOR: true,
+
+    PGDR: true,
+    SGDR: true,
+    SFDR: true,
+    PFDR: true,
+    CenterDR: true,
+
+    Bench: true,
+
+    AvgHeight: true,
+    EffectiveHeight: true,
+
+    PGPts: true,
+    SGPts: true,
+    SFPts: true,
+    PFPts: true,
+    CenterPts: true,
   },
 };
