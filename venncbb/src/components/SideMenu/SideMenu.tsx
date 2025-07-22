@@ -7,8 +7,15 @@ import Sort from "./Sort";
 import Filter from "./Filter";
 import Settings from "./Settings";
 import { Settings as SettingsType } from "../../hooks";
+import Export from "./Export";
 
-export type SideMenuMode = "filter" | "settings" | "data" | "sort" | "red";
+export type SideMenuMode =
+  | "filter"
+  | "settings"
+  | "data"
+  | "sort"
+  | "red"
+  | "export";
 
 const SideMenu = ({
   modeState,
@@ -62,6 +69,7 @@ const SideMenu = ({
           keys={objKeys}
         />
       )}
+      {mode == "export" && <Export teams={applyFilters(teams, filters)} />}
     </div>
   );
 };
