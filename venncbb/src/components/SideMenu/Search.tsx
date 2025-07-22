@@ -26,6 +26,7 @@ const Search = ({
           onChange={(e) => {
             const update = e.currentTarget.value;
             setSearchValue(update);
+            if (update == "") setValue(undefined);
             if (keys.includes(update)) setValue(update);
           }}
           placeholder="Please select"

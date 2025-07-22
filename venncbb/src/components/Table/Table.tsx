@@ -3,9 +3,17 @@ import { Tooltip } from "react-tooltip";
 import type { SelectedColumn, OrderBy } from "../../App";
 import { entries, keys, type State } from "../../helpers";
 import ArrowIcon from "../../icons/ArrowIcon";
-import type { JSX } from "react";
+import {
+  createRef,
+  RefObject,
+  useEffect,
+  useMemo,
+  useRef,
+  type JSX,
+} from "react";
 import Paginate, { usePaginate } from "./Paginate";
 import Stat from "../Misc/Stat";
+import { Settings } from "../../hooks";
 
 const SKIP_COLS = 2;
 
@@ -85,13 +93,13 @@ const Table = ({
   teams,
   orderByState,
   selectedColumnState,
+  SETTINGS,
 }: {
   teams: Team[];
   orderByState: State<OrderBy[]>;
   selectedColumnState: State<SelectedColumn>;
+  SETTINGS: Settings;
 }) => {
-  if (teams.length <= 0) return <div></div>;
-
   const paginate = usePaginate(teams.length, 12);
 
   const [orderBy, _] = orderByState;
@@ -104,6 +112,29 @@ const Table = ({
 
     return <ArrowIcon orientation={value.dir} />;
   };
+
+  const keysList = useMemo(
+    () => keys(teams[0] ?? []) as (keyof Team)[],
+    [teams]
+  );
+
+  const refMap = useMemo(() => {
+    const map: Partial<Record<keyof Team, RefObject<HTMLDivElement | null>>> =
+      {};
+    for (const key of keysList) {
+      map[key] = createRef<HTMLDivElement>();
+    }
+    return map;
+  }, [keysList]);
+
+  useEffect(() => {
+    if (SETTINGS.scrollTo == "disable") return;
+    if (!selectedColumn || !refMap[selectedColumn]) return;
+
+    refMap[selectedColumn].current?.scrollIntoView({ behavior: "smooth" });
+  }, [selectedColumn]);
+
+  if (teams.length <= 0) return <div></div>;
 
   return (
     <div className="flex w-[60rem] overflow-scroll h-screen py-[3rem] justify-center flex-col gap-2">
@@ -131,7 +162,10 @@ const Table = ({
                     }}
                   >
                     <Selectable selected={key == selectedColumn}>
-                      <div className="flex flex-row justify-center items-center gap-1">
+                      <div
+                        className="flex flex-row justify-center items-center gap-1"
+                        ref={refMap[key]}
+                      >
                         <span>
                           <Stat name={key} />
                         </span>

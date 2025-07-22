@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { DataMode } from "./App";
 
 function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } = window;
@@ -21,3 +22,27 @@ export default function useWindowDimensions() {
 
   return windowDimensions;
 }
+
+export type ScrollTo = "auto" | "disable";
+
+export function useSettings(defaults: {
+  datamode: DataMode;
+  scrollto: ScrollTo;
+}) {
+  const dataModeState = useState<DataMode>(defaults.datamode);
+  const [dataMode, setDataMode] = dataModeState;
+
+  const scrollToState = useState<ScrollTo>(defaults.scrollto);
+  const [scrollTo, setScrollTo] = scrollToState;
+
+  return {
+    dataMode,
+    setDataMode,
+    dataModeState,
+    scrollTo,
+    setScrollTo,
+    scrollToState,
+  };
+}
+
+export type Settings = ReturnType<typeof useSettings>;

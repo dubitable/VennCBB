@@ -1,8 +1,9 @@
 import { DataMode } from "../../App";
-import { State } from "../../helpers";
+import { ScrollTo, Settings as SettingsType } from "../../hooks";
 
-const Settings = ({ dataModeState }: { dataModeState: State<DataMode> }) => {
-  const [dataMode, setDataMode] = dataModeState;
+const Settings = ({ SETTINGS }: { SETTINGS: SettingsType }) => {
+  const [dataMode, setDataMode] = SETTINGS.dataModeState;
+  const [scrollTo, setScrollTo] = SETTINGS.scrollToState;
 
   return (
     <div className="flex h-screen flex-1 flex-col justify-start border-e border-gray-100 bg-white w-[20rem] gap-5">
@@ -10,7 +11,7 @@ const Settings = ({ dataModeState }: { dataModeState: State<DataMode> }) => {
         Settings
       </div>
 
-      <div className="w-full h-3/4 flex flex-col justify-start items-center">
+      <div className="w-full h-3/4 flex flex-col justify-start items-cente gap-5 px-2">
         <div className="flex flex-row gap-5">
           <div className="text-gray-800 w-[10rem]"> Data Mode </div>
           <select
@@ -22,6 +23,19 @@ const Settings = ({ dataModeState }: { dataModeState: State<DataMode> }) => {
           >
             <option value="red">Reduced</option>
             <option value="full">Full</option>
+          </select>
+        </div>
+        <div className="flex flex-row gap-5">
+          <div className="text-gray-800 w-[10rem]"> Scroll To</div>
+          <select
+            name="ScrollTo"
+            id="ScrollTo"
+            value={scrollTo}
+            onChange={(e) => setScrollTo(e.currentTarget.value as ScrollTo)}
+            className="mt-0.5 w-full rounded border-gray-300 shadow-sm sm:text-sm text-gray-800"
+          >
+            <option value="auto">Automatic</option>
+            <option value="disable">Disable</option>
           </select>
         </div>
       </div>

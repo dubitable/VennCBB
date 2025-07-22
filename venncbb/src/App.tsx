@@ -5,6 +5,7 @@ import Table from "./components/Table/Table";
 import SideMenu, { type SideMenuMode } from "./components/SideMenu/SideMenu";
 import { applyFilters } from "./helpers";
 import { DATASELECT } from "./maps";
+import { useSettings } from "./hooks";
 
 const API_URL = "http://localhost:3001";
 
@@ -45,15 +46,16 @@ function App() {
   const [filters, setFilters] = useState<Filter[]>([]);
 
   const [sideMenuMode, setSideMenuMode] = useState<SideMenuMode>("red");
-  const [dataMode, setDataMode] = useState<DataMode>("full");
+
+  const SETTINGS = useSettings({ datamode: "full", scrollto: "auto" });
 
   const [selectedColumn, setSelectedColumn] = useState<SelectedColumn>();
 
   useEffect(() => {
-    getTeams(orderBy, dataMode).then((res) => {
+    getTeams(orderBy, SETTINGS.dataMode).then((res) => {
       setTeams(res);
     });
-  }, [orderBy, dataMode]);
+  }, [orderBy, SETTINGS.dataMode]);
 
   return (
     <div className="w-screen h-screen flex flex-row justify-between">
@@ -63,7 +65,7 @@ function App() {
         selectedColumnState={[selectedColumn, setSelectedColumn]}
         orderByState={[orderBy, setOrderBy]}
         filtersState={[filters, setFilters]}
-        dataModeState={[dataMode, setDataMode]}
+        SETTINGS={SETTINGS}
       />
 
       <div className="">
@@ -71,6 +73,7 @@ function App() {
           teams={applyFilters(teams, filters)}
           orderByState={[orderBy, setOrderBy]}
           selectedColumnState={[selectedColumn, setSelectedColumn]}
+          SETTINGS={SETTINGS}
         />
       </div>
       <div></div>
