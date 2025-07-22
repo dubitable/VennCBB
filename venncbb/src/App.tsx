@@ -33,7 +33,6 @@ export type Restriction = { stat: keyof Team; min: number; max: number };
 export type SelectedColumn = keyof Team | undefined;
 
 export type NumFilter = {
-  type: "numeric";
   apply: (team: Team) => boolean;
   min: number;
   max: number;

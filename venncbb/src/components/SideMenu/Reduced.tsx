@@ -31,10 +31,12 @@ const MenuItem = ({
   modeState,
   name,
   icon,
+  amount,
 }: {
   modeState: State<SideMenuMode>;
   name: SideMenuMode;
   icon: () => JSX.Element;
+  amount?: number;
 }) => {
   const [mode, setMode] = modeState;
   return (
@@ -49,12 +51,23 @@ const MenuItem = ({
             {capitalize(name)}
           </span>
         </div>
+        {amount && (
+          <div className="absolute right-0 top-0 rounded-4xl bg-red-500 size-3 text-white text-[0.5rem] text-center">
+            {amount}
+          </div>
+        )}
       </div>
     </Option>
   );
 };
 
-const SideMenuReduced = ({ modeState }: { modeState: State<SideMenuMode> }) => {
+const SideMenuReduced = ({
+  modeState,
+  amounts,
+}: {
+  modeState: State<SideMenuMode>;
+  amounts: Partial<Record<SideMenuMode, number>>;
+}) => {
   return (
     <div className="flex h-full w-16 flex-col justify-between border-e border-gray-100 bg-white noselect ">
       <div>
@@ -102,6 +115,7 @@ const SideMenuReduced = ({ modeState }: { modeState: State<SideMenuMode> }) => {
                   modeState={modeState}
                   icon={() => <FilterIcon />}
                   name="filter"
+                  amount={"filter" in amounts ? amounts["filter"] : undefined}
                 />
               </li>
 
@@ -110,6 +124,7 @@ const SideMenuReduced = ({ modeState }: { modeState: State<SideMenuMode> }) => {
                   modeState={modeState}
                   icon={() => <SortIcon />}
                   name="sort"
+                  amount={"sort" in amounts ? amounts["sort"] : undefined}
                 />
               </li>
             </ul>

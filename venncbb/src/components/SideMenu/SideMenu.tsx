@@ -27,12 +27,18 @@ const SideMenu = ({
 }) => {
   const [mode, _] = modeState;
   const [filters, __] = filtersState;
+  const [orderBy, ___] = orderByState;
 
   const objKeys = teams.length > 0 ? keys(teams[0]) : [];
 
+  const amounts = {
+    filter: filters.length == 0 ? undefined : filters.length,
+    sort: orderBy.length == 0 ? undefined : orderBy.length,
+  };
+
   return (
     <div className="flex">
-      <SideMenuReduced modeState={modeState} />
+      <SideMenuReduced modeState={modeState} amounts={amounts} />
       {mode == "settings" && <Settings SETTINGS={SETTINGS} />}
       {mode == "filter" && (
         <Filter

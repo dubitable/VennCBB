@@ -31,11 +31,12 @@ const Filter = ({
       </div>
 
       <div className="w-full h-3/4 cursor-pointer">
-        {filters.map(({ column, max, min }) => (
+        {filters.map(({ column, max, min }, index) => (
           <FilterCondition
             column={column}
             max={max}
             min={min}
+            key={index}
             removeFilter={() =>
               setFilters([
                 ...filters.filter((filter) => column != filter.column),

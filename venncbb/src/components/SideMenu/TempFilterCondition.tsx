@@ -34,7 +34,7 @@ const TempFilterCondition = ({
   }, [teams, selectedColumn]);
 
   return (
-    <div className="flex flex-row bg-gray-600 rounded p-3 justify-between items-center my-2 w-full">
+    <div className="flex flex-row bg-gray-600 rounded p-3 justify-between items-center my-2 w-full cursor-pointer">
       <Tooltip anchorSelect={`.${selectedColumn}`} place="top">
         {selectedColumn.replaceAll("_", " ")}
       </Tooltip>
