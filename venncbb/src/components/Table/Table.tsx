@@ -1,16 +1,9 @@
 import type { Team } from "@prisma/client";
 import { Tooltip } from "react-tooltip";
 import type { SelectedColumn, OrderBy } from "../../App";
-import { entries, keys, type State } from "../../helpers";
+import { entries, keys, selectableColumn, type State } from "../../helpers";
 import ArrowIcon from "../../icons/ArrowIcon";
-import {
-  createRef,
-  RefObject,
-  useEffect,
-  useMemo,
-  useRef,
-  type JSX,
-} from "react";
+import { createRef, RefObject, useEffect, useMemo, type JSX } from "react";
 import Paginate, { usePaginate } from "./Paginate";
 import Stat from "../Misc/Stat";
 import { Settings } from "../../hooks";
@@ -159,7 +152,9 @@ const Table = ({
                   <th
                     key={index}
                     onClick={() => {
-                      setSelectedColumn(key);
+                      if (selectableColumn(key)) {
+                        setSelectedColumn(key);
+                      }
                     }}
                   >
                     <Selectable selected={key == selectedColumn}>

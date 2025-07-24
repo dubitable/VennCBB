@@ -21,8 +21,8 @@ const Filter = ({
   const [col, _] = colState;
 
   return (
-    <div className="flex h-screen flex-1 flex-col justify-start items-center border-e border-gray-100 bg-white w-[20rem] gap-3">
-      <div className="flex flex-row justify-center items-center mt-5 text-medium text-gray-900 border-b-2 pb-2 border-gray-100 w-full">
+    <div className="flex h-screen flex-1 flex-col justify-start items-center border-e border-gray-100 bg-white w-[20rem] gap-2">
+      <div className="flex flex-row justify-center items-center mt-5 text-medium text-gray-900 border-b-2 mb-3 pb-2 border-gray-100 w-full">
         Filter
       </div>
 

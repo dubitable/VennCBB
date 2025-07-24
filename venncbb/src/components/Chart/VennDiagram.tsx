@@ -1,6 +1,8 @@
 import { useEffect, useRef } from "react";
 import * as d3 from "d3";
 
+import { applyNAMEMAP } from "../../maps";
+
 // @ts-ignore
 import { VennDiagram as VennDiagramJS, sortAreas } from "../../../venn/venn";
 
@@ -55,7 +57,9 @@ function createSets(teams: Team[], restrictions: Filter[]) {
     const filteredTeams = applyRestrictions(teams, memo);
 
     return {
-      sets: subRestrictions.map((elem) => String.fromCharCode(elem.index + 66)),
+      sets: subRestrictions.map((elem) =>
+        applyNAMEMAP(restrictions[elem.index].column)
+      ),
       size: filteredTeams.length,
       teams: filteredTeams,
     };
@@ -63,10 +67,10 @@ function createSets(teams: Team[], restrictions: Filter[]) {
 
   return [
     ...sets,
-    { sets: ["A"], size: teams.length, teams },
+    { sets: ["ALL"], size: teams.length, teams },
     ...sets.map((set) => {
       return {
-        sets: ["A", ...set.sets],
+        sets: ["ALL", ...set.sets],
         size: set.size,
         teams: set.teams,
       };

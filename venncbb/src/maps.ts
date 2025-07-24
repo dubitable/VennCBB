@@ -26,6 +26,11 @@ export const NAMEMAP = {
   EffectiveHeight: "EffHgt",
 };
 
+export const applyNAMEMAP = (column: string) => {
+  if (column in NAMEMAP) return NAMEMAP[column as keyof typeof NAMEMAP];
+  return column;
+};
+
 export const DATASELECT = {
   REDUCED: {
     Tournament_Winner_: true,

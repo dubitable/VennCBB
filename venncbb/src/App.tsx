@@ -49,7 +49,7 @@ function App() {
 
   const [sideMenuMode, setSideMenuMode] = useState<SideMenuMode>("filter");
 
-  const SETTINGS = useSettings({ datamode: "full", scrollto: "auto" });
+  const SETTINGS = useSettings({ datamode: "red", scrollto: "auto" });
 
   const [selectedColumn, setSelectedColumn] = useState<SelectedColumn>();
 

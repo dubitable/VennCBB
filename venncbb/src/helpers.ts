@@ -24,3 +24,12 @@ export const applyFilters = (teams: Team[], filters: Filter[]) => {
     return filters.reduce((prev, curr) => prev && curr.apply(team), true);
   });
 };
+
+export const selectableColumn = (column: string) => {
+  return ![
+    "logos",
+    "Full_Team_Name",
+    "Short_Conference_Name",
+    "Tournament_Winner_",
+  ].includes(column);
+};
