@@ -14,7 +14,7 @@ const Export = ({ teams }: { teams: Team[] }) => {
           <select
             name="Mode"
             id="Mode"
-            value={"csv"}
+            defaultValue={"csv"}
             className="mt-0.5 w-full rounded border-gray-300 shadow-sm sm:text-sm text-gray-800"
           >
             <option value="csv">CSV</option>

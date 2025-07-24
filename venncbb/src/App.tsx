@@ -47,7 +47,7 @@ function App() {
   const [orderBy, setOrderBy] = useState<OrderBy[]>([orderByDefault]);
   const [filters, setFilters] = useState<Filter[]>([]);
 
-  const [sideMenuMode, setSideMenuMode] = useState<SideMenuMode>("red");
+  const [sideMenuMode, setSideMenuMode] = useState<SideMenuMode>("filter");
 
   const SETTINGS = useSettings({ datamode: "full", scrollto: "auto" });
 

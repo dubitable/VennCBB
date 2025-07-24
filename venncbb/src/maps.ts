@@ -88,11 +88,5 @@ export const DATASELECT = {
 
     AvgHeight: true,
     EffectiveHeight: true,
-
-    PGPts: true,
-    SGPts: true,
-    SFPts: true,
-    PFPts: true,
-    CenterPts: true,
   },
 };
